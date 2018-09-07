@@ -26,11 +26,11 @@ export default class SpawnConfirm extends Vue {
   }
 
   get mob(): Mob {
-    return this.$store.getters.currentMob;
+    return this.$store.getters['game/currentMob']
   }
 
   async flee() {
-    await this.$store.dispatch('updateSpawnCooldown', this.spawnId)
+    await this.$store.dispatch('game/updateSpawnCooldown', this.spawnId)
     this.$router.push({ name: 'Home' })
   }
 
