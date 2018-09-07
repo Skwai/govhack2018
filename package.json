@@ -10,6 +10,7 @@
     "deploy:hosting": "yarn build && firebase deploy --only hosting"
   },
   "dependencies": {
+    "firebase": "^5.4.2",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
@@ -19,10 +20,12 @@
     "vuex-typescript": "^3.0.2"
   },
   "devDependencies": {
+    "@types/googlemaps": "^3.30.12",
     "@vue/cli-plugin-typescript": "^3.0.1",
     "@vue/cli-service": "^3.0.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
+    "tslint-config-prettier": "^1.15.0",
     "typescript": "^3.0.0",
     "vue-template-compiler": "^2.5.17"
   }

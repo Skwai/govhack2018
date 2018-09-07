@@ -1,6 +1,6 @@
 {
   "defaultSeverity": "warning",
-  "extends": ["tslint:recommended"],
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
   "linterOptions": {
     "exclude": ["node_modules/**"]
   },
@@ -13,6 +13,7 @@
     "object-literal-sort-keys": false,
     "no-consecutive-blank-lines": false,
     "trailing-comma": false,
-    "member-access": false
+    "member-access": false,
+    "member-ordering": false
   }
 }

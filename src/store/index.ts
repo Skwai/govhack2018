@@ -1,7 +1,7 @@
 import * as actions from '@/store/actions';
 import * as getters from '@/store/getters';
 import mutations from '@/store/mutations';
-import { getStoreAccessors } from 'vuex-typescript';
+// import { getStoreAccessors } from 'vuex-typescript';
 import State from '@/store/state';
 import Vuex from 'vuex';
 import Vue from 'vue';
@@ -15,13 +15,10 @@ export default new Vuex.Store<State>({
   mutations
 });
 
-const { commit, read, dispatch } = getStoreAccessors<State, State>('');
+// const { commit, read, dispatch } = getStoreAccessors<State, State>('');
 
-// Getters
-export const readExample = read(getters.example);
+// // Getters
+// export const readExample = read(getters.example);
 
-// Actions
-export const dispatchUpdateExample = dispatch(actions.updateExample);
-
-// Mutations
-export const commitSetExample = commit(mutations.setExample);
+// // Actions
+// export const dispatchGetMobs = dispatch(actions.getMobs);
