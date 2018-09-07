@@ -12,8 +12,8 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Spawn from '@/models/Spawn';
 import AppLoading from '@/components/AppLoading.vue'
-import { ILatLng } from '@/store/state';
 import TheMap from '@/components/TheMap.vue'
+import { ILatLng } from '@/store/geolocation/state';
 
 @Component({
   components: {
@@ -25,11 +25,11 @@ export default class App extends Vue {
   loading = false
 
   get spawns(): Spawn[] {
-    return this.$store.getters.spawns
+    return this.$store.getters['game/spawns']
   }
 
   get coords(): ILatLng {
-    return this.$store.getters.coords
+    return this.$store.getters['geolocation/coords']
   }
 
   get loaded(): boolean {
@@ -40,8 +40,9 @@ export default class App extends Vue {
     this.loading = true;
     try {
       await Promise.all([      
-        this.$store.dispatch('getCurrentPosition'),
-        this.$store.dispatch('getSpawns')
+        this.$store.dispatch('auth/getCurrentUser'),
+        this.$store.dispatch('geolocation/getCurrentPosition'),
+        this.$store.dispatch('game/getSpawns')
       ])
     } finally {
       this.loading = false;

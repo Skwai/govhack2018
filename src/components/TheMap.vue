@@ -5,19 +5,19 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { Position } from 'vue-router/types/router';
-import { ILatLng } from '@/store/state';
 import Spawn from '@/models/Spawn';
+import { ILatLng } from '@/store/geolocation/state';
 
 @Component
 export default class TheMap extends Vue {
   map?: google.maps.Map
 
   get coords(): ILatLng {
-    return this.$store.getters.coords
+    return this.$store.getters['geolocation/coords']
   }
 
   get spawns(): Spawn[] {
-    return this.$store.getters.spawns
+    return this.$store.getters['game/spawns']
   }
 
   @Watch('coords')
@@ -28,7 +28,7 @@ export default class TheMap extends Vue {
   }
 
   async mounted() {
-    await this.$store.dispatch('watchPosition')
+    await this.$store.dispatch('geolocation/watchPosition')
     const { lat, lng } = this.coords
     this.map = new google.maps.Map(this.$el, {
       center: { lat, lng },

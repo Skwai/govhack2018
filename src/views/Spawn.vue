@@ -17,7 +17,7 @@ import Mob from '@/models/Mob';
 })
 export default class SpawnView extends Vue {
   get spawn(): Spawn | undefined {
-    return this.$store.getters.spawnById(this.spawnId)
+    return this.$store.getters['game/spawnById'](this.spawnId)
   }
 
   get spawnId(): string {
@@ -29,11 +29,11 @@ export default class SpawnView extends Vue {
       this.$router.push('/')
       return;
     }
-    this.$store.dispatch('setCurrentMob', Mob.fromSpawn(this.spawn))
+    this.$store.dispatch('game/setCurrentMob', Mob.fromSpawn(this.spawn))
   }
 
   destroyed() {
-    this.$store.dispatch('unsetCurrentMob')
+    this.$store.dispatch('game/unsetCurrentMob')
   }
 }
 </script>

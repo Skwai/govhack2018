@@ -14,6 +14,8 @@ export const signOut = (): Promise<any> => app.auth().signOut();
 
 export const currentUser = (): User | null => app.auth().currentUser;
 
+export const signInAnonymously = () => app.auth().signInAnonymously();
+
 export const getCurrentUser = (): Promise<User | undefined> => {
   const authUser = currentUser();
 
