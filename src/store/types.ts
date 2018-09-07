@@ -1,0 +1,5 @@
+export enum MutationTypes {
+  ADD_SPAWN = 'ADD_SPAWN',
+  INSERT_SPAWNS = 'INSERT_SPAWNS',
+  UPDATE_COORDS = 'UPDATE_COORDS'
+}
