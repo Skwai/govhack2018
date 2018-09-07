@@ -41,6 +41,22 @@ export default class TheMap extends Vue {
       scrollwheel: false,
       zoomControl: false
     })
+    this.addSpawnsToMap(this.spawns)
+  }
+
+  addSpawnsToMap(spawns: Spawn[]) {
+    const { map } = this
+    const markers = spawns.map((spawn) => {
+      const { latitude: lat, longitude: lng } = spawn.coordinates
+      const marker = new google.maps.Marker({
+        position: { lat, lng },
+        map
+      })
+      marker.addListener('click', () => this.$router.push({
+        name: 'SpawnConfirm',
+        params: { spawnId: spawn.id! }
+      }))
+    })
   }
 }
 </script>

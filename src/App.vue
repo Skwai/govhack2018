@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <AppLoading v-if="loading" />
-    <router-view v-else-if="loaded" />
+    <template v-else-if="loaded">
+      <TheMap />
+      <router-view />
+    </template>
   </div>
 </template>
 
@@ -10,10 +13,12 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import Spawn from '@/models/Spawn';
 import AppLoading from '@/components/AppLoading.vue'
 import { ILatLng } from '@/store/state';
+import TheMap from '@/components/TheMap.vue'
 
 @Component({
   components: {
-    AppLoading
+    AppLoading,
+    TheMap
   }
 })
 export default class App extends Vue {

@@ -6,3 +6,5 @@ export const FIREBASE = {
   storageBucket: 'govhack2018.appspot.com',
   messagingSenderId: '821973521357'
 };
+
+export const SPAWN_COOLDOWN_DURATION_MINUTES = 10;

@@ -7,7 +7,7 @@ export interface ILatLng {
 }
 
 export default class State {
-  mobs: Mob[] = [];
+  currentMob: Mob | null = null;
   spawns: Spawn[] = [];
   coords?: ILatLng = { lat: -42.87936, lng: 147.32941 };
 }
