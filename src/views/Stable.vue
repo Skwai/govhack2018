@@ -2,6 +2,7 @@
   <div class="StableView">
     <AppModal>
       <h2>Stable</h2>
+      <p>Your trashasaurs go here</p>
     </AppModal>
   </div>
 </template>

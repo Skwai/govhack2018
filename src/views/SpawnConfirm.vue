@@ -35,7 +35,8 @@ export default class SpawnConfirm extends Vue {
   }
 
   fight() {
-    console.log('FITE')
+    const {spawnId} = this
+    this.$router.push({ name: 'Stable', params: { spawnId }})
   }
 }
 </script>
