@@ -19,17 +19,17 @@ export default new Router({
       component: () => import(/* webpackChunkName: "spawn" */ './views/Spawn.vue'),
       children: [
         {
-          path: '/',
+          path: '',
           name: 'SpawnConfirm',
           component: () => import(/* webpackChunkName: "spawnConfirm" */ './views/SpawnConfirm.vue')
         },
         {
-          path: '/stable',
+          path: 'stable',
           name: 'Stable',
           component: () => import(/* webpackChunkName: "stable" */ './views/Stable.vue')
         },
         {
-          path: '/fight',
+          path: 'fight',
           name: 'Fight',
           component: () => import(/* webpackChunkName: "fight" */ './views/Fight.vue')
         }
