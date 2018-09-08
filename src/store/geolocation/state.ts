@@ -4,5 +4,5 @@ export interface ILatLng {
 }
 
 export default class GeolocationState {
-  coords?: ILatLng = { lat: -42.87936, lng: 147.32941 };
+  coords: ILatLng = { lat: -42.87936, lng: 147.32941 };
 }

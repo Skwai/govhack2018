@@ -27,10 +27,12 @@ export default class SeedView extends Vue {
     });
 
     spawns.forEach((spawn: any[]) => {
-      const [lat, long, type] = spawn;
+      const [lat, lng, type] = spawn;
       collection.add({
         type,
-        coordinates: new firebase.firestore.GeoPoint(lat, long),
+        coordinates: new firebase.firestore.GeoPoint(lat, lng),
+        lat,
+        lng,
         cooldown: new Date()
       });
     });

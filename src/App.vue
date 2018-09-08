@@ -11,8 +11,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Spawn from '@/models/Spawn';
-import AppLoading from '@/components/AppLoading.vue'
-import TheMap from '@/components/TheMap.vue'
+import AppLoading from '@/components/AppLoading.vue';
+import TheMap from '@/components/TheMap.vue';
 import { ILatLng } from '@/store/geolocation/state';
 
 @Component({
@@ -22,31 +22,23 @@ import { ILatLng } from '@/store/geolocation/state';
   }
 })
 export default class App extends Vue {
-  loading = false
-
-  get spawns(): Spawn[] {
-    return this.$store.getters['game/spawns']
-  }
+  loading = false;
 
   get coords(): ILatLng {
-    return this.$store.getters['geolocation/coords']
+    return this.$store.getters['geolocation/coords'];
   }
 
   get loaded(): boolean {
-    return !!this.spawns.length && this.coords && !this.loading;
+    return this.coords && !this.loading;
   }
 
   async created(): Promise<void> {
     this.loading = true;
     try {
-      await Promise.all([
-        await this.$store.dispatch('game/getSpawns'),
-        await this.$store.dispatch('auth/authenticate'),
-        await this.$store.dispatch('geolocation/getCurrentPosition')
-      ])
+      await Promise.all([await this.$store.dispatch('auth/authenticate')]);
       const { uid } = this.$store.getters['auth/currentUser'];
       const coords = this.$store.getters['geolocation/coords'];
-      await this.$store.dispatch('game/getOrCreateUser', { uid, coords});
+      await this.$store.dispatch('game/getOrCreateUser', { uid, coords });
     } finally {
       this.loading = false;
     }

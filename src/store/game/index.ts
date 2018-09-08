@@ -8,6 +8,7 @@ import { firestore } from 'firebase';
 import db from '@/services/firestore';
 import { ILatLng } from '@/store/geolocation/state';
 import User from '@/models/User';
+import { getCurrentPosition } from '@/services/geolocation';
 
 enum Mutations {
   ADD_SPAWN = 'ADD_SPAWN',
@@ -17,19 +18,33 @@ enum Mutations {
   UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER'
 }
 
+const AREA_LAT = 0.002;
+const AREA_LONG = 0.002;
+
+const inBetween = (target: ILatLng, loc1: ILatLng, loc2: ILatLng): boolean => {
+  return target.lat >= loc1.lat && target.lat <= loc2.lat && target.lng >= loc1.lng && target.lng <= loc2.lng;
+}
 const module: Module<GameState, RootState> = {
   namespaced: true,
   state: new GameState(),
 
   actions: {
-    getSpawns: async ({ commit }) => {
+    getSpawns: async ({ commit, state }, coords: ILatLng) => {
+      const { lat, lng } = coords;
+      const loc1 = { lat: lat - AREA_LAT, lng: lng - AREA_LONG };
+      const loc2 = { lat: lat + AREA_LAT, lng: lng + AREA_LONG };
+
       const docs = await db.collection('spawns').get();
+
       const spawns: Spawn[] = [];
+
       docs.forEach((doc) => {
         const { id } = doc;
         const data = doc.data() as SpawnProperties;
-        const mob = new Spawn({ id, ...data });
-        spawns.push(mob);
+        if (inBetween(data, loc1, loc2)) {
+          const mob = new Spawn({ id, ...data });
+          spawns.push(mob);
+        }
       });
       commit(Mutations.INSERT_SPAWNS, spawns);
     },

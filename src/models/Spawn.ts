@@ -15,6 +15,8 @@ export default class Spawn {
   coordinates!: firestore.GeoPoint;
   cooldown!: firestore.Timestamp;
   type!: string;
+  lat!: number;
+  lng!: number;
 
   get name(): string | undefined {
     return spawnTypeMap.get(this.type);
