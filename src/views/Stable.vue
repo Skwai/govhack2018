@@ -29,6 +29,7 @@ import AppModalContent from '@/components/AppModalContent.vue';
 import AppBtnGroup from '@/components/AppBtnGroup.vue';
 import AppBtn from '@/components/AppBtn.vue';
 import Mob from '@/models/Mob';
+import Trashemon from '@/models/Trashemon';
 
 @Component({
   components: {
@@ -50,6 +51,10 @@ export default class StableView extends Vue {
   }
 
   confirm() {
+    this.$store.dispatch(
+      'game/setCurrentTrashemon',
+      this.trashemons.find((t: Trashemon) => t.id === this.selectedTrashemonId)
+    );
     this.$router.push({ name: 'Fight', params: { spawnId: this.$route.params.spawnId } });
   }
 

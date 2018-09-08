@@ -18,7 +18,8 @@ enum Mutations {
   SET_CURRENT_MOB = 'SET_CURRENT_MOB',
   UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER',
   INSERT_USERS = 'INSERT_USERS',
-  ADD_TRASHEMON = 'ADD_TRASHEMON'
+  ADD_TRASHEMON = 'ADD_TRASHEMON',
+  SET_CURRENT_TRASHEMON = 'SET_CURRENT_TRASHEMON'
 }
 
 const AREA_LAT = 0.002;
@@ -179,6 +180,10 @@ const module: Module<GameState, RootState> = {
       trashemon.id = docRef.id;
       await docRef.set({ ...trashemon });
       commit(Mutations.ADD_TRASHEMON, trashemon);
+    },
+
+    setCurrentTrashemon: async ({ commit }, mob: Trashemon) => {
+      commit(Mutations.SET_CURRENT_TRASHEMON, Trashemon);
     }
   },
 
@@ -215,6 +220,10 @@ const module: Module<GameState, RootState> = {
 
     [Mutations.ADD_TRASHEMON](state: GameState, trashemon: Trashemon) {
       state.trashemons.push(trashemon);
+    },
+
+    [Mutations.SET_CURRENT_TRASHEMON](state: GameState, trashemon: Trashemon) {
+      state.currentTrashemon = trashemon;
     }
   },
 
@@ -222,6 +231,7 @@ const module: Module<GameState, RootState> = {
     spawns: ({ spawns }: GameState) => spawns,
     users: ({ users }: GameState) => users,
     currentMob: ({ currentMob }: GameState) => currentMob,
+    currentTrashemon: ({ currentTrashemon }: GameState) => currentTrashemon,
     spawnById: ({ spawns }: GameState) => (spawnId: string) => spawns.find(({ id }) => id === spawnId),
     currentUserTrashemons: ({ trashemons, currentUser }) =>
       trashemons.filter(({ userId }) => currentUser && userId === currentUser.id)

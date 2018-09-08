@@ -5,6 +5,7 @@ import Trashemon from '@/models/Trashemon';
 
 export default class GameState {
   currentMob: Mob | null = null;
+  currentTrashemon: Trashemon | null = null;
   spawns: Spawn[] = [];
   users: User[] = [];
   currentUser: User | null = null;
