@@ -24,10 +24,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import AppModal from '@/components/AppModal.vue'
-import AppModalContent from '@/components/AppModalContent.vue'
-import AppBtnGroup from '@/components/AppBtnGroup.vue'
-import AppBtn from '@/components/AppBtn.vue'
+import AppModal from '@/components/AppModal.vue';
+import AppModalContent from '@/components/AppModalContent.vue';
+import AppBtnGroup from '@/components/AppBtnGroup.vue';
+import AppBtn from '@/components/AppBtn.vue';
 import Mob from '@/models/Mob';
 
 @Component({
@@ -46,15 +46,15 @@ export default class StableView extends Vue {
   }
 
   selectTrashemon(trashemonId: string) {
-    this.selectedTrashemonId = trashemonId
+    this.selectedTrashemonId = trashemonId;
   }
 
   confirm() {
-    this.$router.push({ name: 'Fight', params: { paramsId: this.$route.params.paramsId } })
+    this.$router.push({ name: 'Fight', params: { spawnId: this.$route.params.spawnId } });
   }
 
   xpToLevel(xp: number) {
-    return Mob.xpToLevel(xp)
+    return Mob.xpToLevel(xp);
   }
 }
 </script>
