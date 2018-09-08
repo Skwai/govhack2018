@@ -13,8 +13,8 @@ export interface IMobAttackType {
   missChance: number;
 }
 
-export const trashasaur: IMobType = {
-  name: 'Trashinator',
+export const trashosaur: IMobType = {
+  name: 'Trashosaur',
   spawnLevelRange: [1, 4],
   baseHealth: 10,
   healthMultiplier: 2,
@@ -29,7 +29,7 @@ export const trashasaur: IMobType = {
 };
 
 export enum MobTypes {
-  TRASHOAUR = '25lt Drop Plastic',
+  TRASHOSAUR = '25lt Drop Plastic',
   SCUMOSAUR = '120lt Doggie Bins',
   FILTHOSAUR = '120lt Cage General Waste',
   DANKOSAUR = '240lt Cage General Waste',
@@ -39,11 +39,11 @@ export enum MobTypes {
 }
 
 const mobs: Map<string, IMobType> = new Map();
-mobs.set(MobTypes.TRASHOAUR, trashasaur);
-mobs.set(MobTypes.SCUMOSAUR, trashasaur);
-mobs.set(MobTypes.FILTHOSAUR, trashasaur);
-mobs.set(MobTypes.DANKOSAUR, trashasaur);
-mobs.set(MobTypes.SEEDOSAUR, trashasaur);
-mobs.set(MobTypes.DOGOSAUR, trashasaur);
-mobs.set(MobTypes.STANKOSAUR, trashasaur);
+mobs.set(MobTypes.TRASHOSAUR, trashosaur);
+mobs.set(MobTypes.SCUMOSAUR, trashosaur);
+mobs.set(MobTypes.FILTHOSAUR, trashosaur);
+mobs.set(MobTypes.DANKOSAUR, trashosaur);
+mobs.set(MobTypes.SEEDOSAUR, trashosaur);
+mobs.set(MobTypes.DOGOSAUR, trashosaur);
+mobs.set(MobTypes.STANKOSAUR, trashosaur);
 export default mobs;
