@@ -28,15 +28,15 @@ export default class TheMap extends Vue {
   }
 
   @Watch('coords')
-  onCoordsUpdate(newCoords: ILatLng) {
+  async onCoordsUpdate(newCoords: ILatLng) {
     if (newCoords && this.locationMarker) {
-      this.locationMarker.setPosition(newCoords);
-      this.$store.dispatch('game/getSpawns', this.coords);
+      await this.locationMarker.setPosition(newCoords);
+      await this.$store.dispatch('game/getSpawns', this.coords);
     }
 
     if (newCoords && this.map) {
-      this.map.setCenter({ lat: newCoords.lat, lng: newCoords.lng });
-      this.$store.dispatch('game/updateCurrentUserCoordinates', newCoords);
+      await this.map.setCenter({ lat: newCoords.lat, lng: newCoords.lng });
+      await this.$store.dispatch('game/updateCurrentUserCoordinates', newCoords);
     }
   }
 
