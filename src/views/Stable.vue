@@ -8,7 +8,7 @@
         v-for="trashemon in trashemons"
         :key="trashemon.id"
         class="StableView__Trashemon"
-        aria-selected="false"
+        :aria-selected="selectedTrashemonId === trashemon.id"
         tabindex="-1"
         @click="selectTrashemon(trashemon.id)"
       >
@@ -66,8 +66,11 @@ export default class StableView extends Vue {
   &__Trashemon {
     padding: 1.5rem 1.5rem;
     text-align: left;
-    border-top: #dadbdc solid 1px;
-    border-bottom: #dadbdc solid 1px;
+
+    &:focus {
+      outline: 0;
+      box-shadow: none;
+    }
 
     > :first-child {
       margin-top: 0;
@@ -76,10 +79,10 @@ export default class StableView extends Vue {
     > :last-child {
       margin-bottom: 0;
     }
-  }
 
-  &__Trashemon + &__Trashemon {
-    border-top: #f1f2f3 solid 1px;
+    &[aria-selected='true'] {
+      background: $colorSecondary;
+    }
   }
 }
 </style>

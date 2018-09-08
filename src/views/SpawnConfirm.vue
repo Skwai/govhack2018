@@ -7,7 +7,7 @@
         <h5>Level {{mob.level}}</h5>
       </AppModalContent>
       <AppBtnGroup>
-        <AppBtn type="button" @click.prevent="flee">Run away</AppBtn>
+        <AppBtn type="button" @click.prevent="flee">Flee</AppBtn>
         <AppBtn color="primary" type="button" @click.prevent="fight">Fight</AppBtn>
       </AppBtnGroup>
     </AppModal>

@@ -153,17 +153,21 @@ export default class TheMap extends Vue {
 
 <style lang="stylus" scoped>
 .TheMap {
-  width: 100vw;
-  height: 100vh;
+  flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: stretch;
+  align-items: stretch;
+  box-sizing: border-box;
+  padding: 0 1rem 1rem;
+  flex-direction: column;
 
   &__Canvas {
+    flex: 1;
     overflow: hidden;
-    border-radius: 50%;
-    width: 100vw;
-    height: 100vw;
+    width: 100%;
+    height: 100%;
+    border: #F7F6CC solid 6px;
+    box-shadow: 2px 3px #292524;
   }
 }
 </style>

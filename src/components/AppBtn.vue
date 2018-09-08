@@ -107,7 +107,7 @@ export default class AppBtn extends Vue {
   text-align: center;
   transition: 0.15s background;
   justify-content: center;
-  background-color: #f1f2f3;
+  background-color: $colorSecondary;
 
   &:hover, &:focus {
     color: $colorPrimary;

@@ -18,7 +18,7 @@ export default class AppModal extends Vue {}
 
 <style lang="stylus" scoped>
 .AppModal {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.5);
   position: fixed;
   left: 0;
   top: 0;
@@ -28,12 +28,12 @@ export default class AppModal extends Vue {}
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
 
   &__Content {
-    background: #fff;
-    width: 90vw;
+    background: #FFF;
     max-width: 20rem;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 0.25rem 1rem, rgba(0, 0, 0, 0.1) 0 1px 1px;
+    // box-shadow: rgba(0, 0, 0, 0.1) 0 0.25rem 1rem, rgba(0, 0, 0, 0.1) 0 1px 1px;
   }
 }
 </style>
