@@ -183,7 +183,7 @@ const module: Module<GameState, RootState> = {
     },
 
     setCurrentTrashemon: async ({ commit }, mob: Trashemon) => {
-      commit(Mutations.SET_CURRENT_TRASHEMON, Trashemon);
+      commit(Mutations.SET_CURRENT_TRASHEMON, mob);
     }
   },
 

@@ -16,10 +16,11 @@ export const fight = (attacker: Mob, defender: Mob, attack: IMobAttackType): IFi
     const damage = calcDamage(attack.damageRange);
     const multiplier = calcMultiplier(attacker, defender);
     const critical = Math.random() < 0.2;
+
     if (critical) {
-      return { outcome: OutcomeType.CRITICAL, damage: damage * multiplier * 2 };
+      return { outcome: OutcomeType.CRITICAL, damage: Math.round(damage * multiplier * 2) };
     } else {
-      return { outcome: OutcomeType.HIT, damage: damage * multiplier };
+      return { outcome: OutcomeType.HIT, damage: Math.round(damage * multiplier) };
     }
   } else {
     return { outcome: OutcomeType.MISS, damage: 0 };

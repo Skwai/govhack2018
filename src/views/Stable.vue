@@ -54,10 +54,7 @@ export default class StableView extends Vue {
   }
 
   confirm() {
-    this.$store.dispatch(
-      'game/setCurrentTrashemon',
-      this.trashemons.find((t: Trashemon) => t.id === this.selectedTrashemonId)
-    );
+    this.$store.dispatch('game/setCurrentTrashemon', this.trashemons.find((t: Trashemon) => t.id === this.selectedTrashemonId));
     this.$router.push({ name: 'Fight', params: { spawnId: this.$route.params.spawnId } });
   }
 
