@@ -1,5 +1,5 @@
 <template>
-  <div class="FightView">åå
+  <div class="FightView">
     <div class="FightView__Trashemon">
       <h5>Scumosaur</h5>
       <h6>Level 12</h6>
@@ -71,8 +71,9 @@ export default class FightView extends Vue {
   position: fixed;
   left: 0;
   top: 0;
-  background: #000 url('/bg.png');
-  background-size: cover;
+  background-color: #000;
+  background-image: linear-gradient(to bottom, transparent, transparent 50%, black 75%), url('/bg.png');
+  background-size: cover, cover;
   background-position: center bottom;
 
   &__Vs {
