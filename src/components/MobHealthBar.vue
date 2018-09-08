@@ -4,16 +4,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-
-export default class MobHealthBar extends Vue {
-  @Prop({ required: true, type: Number })
-  currentHealth!: number
-
-  @Prop({ required: true, type: Number })
-  totalHealth!: number
-}
+<script>
+export default {};
 </script>
 
 <style lang="stylus" scoped>

@@ -1,6 +1,6 @@
 <template>
   <div class="FightView">
-    <h2>{{mob.name}}</h2> vs <h2>{{trashemon.name}}</h2>
+    <h2>{{mob.name}}</h2>
     <div class="FightView__Trashemon">
       <h5>Scumosaur</h5>
       <h6>Level 12</h6>
@@ -34,9 +34,9 @@ import MobHealthBar from '@/components/MobHealthBar.vue';
 
 @Component({
   components: {
+    MobHealthBar,
     AppBtn,
     AppBtnGroup,
-    MobHealthBar
   }
 })
 export default class FightView extends Vue {
