@@ -7,8 +7,9 @@ import { SPAWN_COOLDOWN_DURATION_MINUTES } from '@/config';
 import { firestore } from 'firebase';
 import db from '@/services/firestore';
 import { ILatLng } from '@/store/geolocation/state';
-import User from '@/models/User';
+import User, { UserProperties } from '@/models/User';
 import mobs, { MobTypes } from '@/data/mobs';
+import Trashemon from '@/models/Trashemon';
 
 enum Mutations {
   ADD_SPAWN = 'ADD_SPAWN',
