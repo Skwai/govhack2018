@@ -78,7 +78,7 @@ export default class TheMap extends Vue {
       minZoom: zoom,
       maxZoom: zoom,
       panControl: false,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeId: google.maps.MapTypeId.TERRAIN,
       styles: MAP_STYLE
     });
 
@@ -86,8 +86,7 @@ export default class TheMap extends Vue {
       position: { lat, lng },
       map: this.map,
       icon: {
-        url:
-          'https://www.freeiconspng.com/uploads/icon-png-people-user-icon-png-executive-person-icon-man-icon-png--30.png',
+        url: './user.gif',
         scaledSize: new google.maps.Size(80, 80)
       },
       zIndex: 100
@@ -102,7 +101,7 @@ export default class TheMap extends Vue {
     this.currentSpawns = [];
 
     const icon = {
-      url: 'https://image.flaticon.com/icons/png/128/70/70388.png',
+      url: './trash_can.png',
       scaledSize: new google.maps.Size(32, 32)
     };
     const markers = spawns.map((spawn) => {
@@ -111,7 +110,8 @@ export default class TheMap extends Vue {
         position: { lat, lng },
         map,
         zIndex: 50,
-        icon
+        icon,
+        title: spawn.type
       });
       marker.addListener('click', () =>
         this.$router.push({
@@ -131,7 +131,7 @@ export default class TheMap extends Vue {
     this.currentUsers = [];
 
     const icon = {
-      url: 'https://www.freeiconspng.com/uploads/-human-male-man-people-person-profile-red-user-icon--icon--23.png',
+      url: './user2.gif',
       scaledSize: new google.maps.Size(60, 60)
     };
 
