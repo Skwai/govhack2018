@@ -1,10 +1,9 @@
 <template>
-  <div class="FightView">
-    <h2>{{mob.name}}</h2>
+  <div class="FightView">åå
     <div class="FightView__Trashemon">
       <h5>Scumosaur</h5>
       <h6>Level 12</h6>
-      <MobHealthBar />
+      <MobHealthBar :current="80" :total="100" />
     </div>
 
     <div class="FightView__Vs">Vs</div>
@@ -12,14 +11,18 @@
     <div class="FightView__Enemy">
       <h5>{{mob.name}}</h5>
       <h6>Level 12</h6>
-      <MobHealthBar />
+      <MobHealthBar :current="50" :total="100" />
+    </div>
+
+    <div class="FightView__EnemyAvatar">
+      <img src="/avatar.png">
     </div>
     
     <div class="FightView__Attacks">
       <AppBtnGroup>
-        <AppBtn>Punch</AppBtn>
-        <AppBtn>Kick</AppBtn>
-        <AppBtn>Slap</AppBtn>
+        <AppBtn>Stink</AppBtn>
+        <AppBtn>Slime</AppBtn>
+        <AppBtn>Tip</AppBtn>
       </AppBtnGroup>
     </div>
   </div>
@@ -51,6 +54,16 @@ export default class FightView extends Vue {
 </script>
 
 <style lang="stylus" scoped>
+@keyframes bob {
+  0%, 50% {
+    margin-top: 0;
+  }
+
+  51%, 100% {
+    margin-top: 1rem;
+  }
+}
+
 .FightView {
   text-align: center;
   width: 100vw;
@@ -92,6 +105,21 @@ export default class FightView extends Vue {
     right: 0.5rem;
     top: 0.5rem;
     text-align: right;
+  }
+
+  &__EnemyAvatar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 50vw;
+    transform: translate(-50%, -50%);
+    line-height: 0;
+    animation: bob 1s infinite;
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
   }
 
   &__Enemy, &__Trashemon {

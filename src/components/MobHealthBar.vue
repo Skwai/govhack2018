@@ -1,11 +1,24 @@
 <template>
   <div class="MobHealthBar">
-    <div class="MobHealthBar__Value"></div>
+    <div class="MobHealthBar__Value" :style="'width: ' + percent + '%'"></div>
   </div>
 </template>
 
-<script>
-export default {};
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
+
+@Component
+export default class MobHealthBar extends Vue {
+  @Prop({ type: Number, required: true })
+  current!: number
+
+  @Prop({ type: Number, required: true })
+  total!: number
+
+  get percent() {
+    return (this.current / this.total * 100);
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -21,7 +34,7 @@ export default {};
     box-shadow: inset #FE8079 0 2px 0, inset #E32E2C 0 -2px 0;
     background: #FF251F;
     height: 10px;
-    width: 70%;
+    width: 100%;
     border-radius: 2px;
   }
 }
