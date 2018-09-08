@@ -1,6 +1,6 @@
 <template>
   <header class="TheHeader">
-    <img src="../assets/icon.png" class="TheHeader__Logo" />
+    <img src="/icon.png" class="TheHeader__Logo" />
     <h1 class="TheHeader__Title">BinHunter</h1>
   </header>
 </template>

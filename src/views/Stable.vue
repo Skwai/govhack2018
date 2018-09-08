@@ -12,7 +12,6 @@
         tabindex="-1"
         @click="selectTrashemon(trashemon.id)"
       >
-        <img src="../assets/icon.png" class="StableView__Avatar">
         <div>
           <h3>{{trashemon.name}}</h3>
           <p>Level {{xpToLevel(trashemon.xp)}}</p>
@@ -93,6 +92,8 @@ export default class StableView extends Vue {
     > :last-child {
       margin-bottom: 0;
     }
+
+    background: #f1f2f3;
 
     &[aria-selected='true'] {
       background: #F8BE1F;
