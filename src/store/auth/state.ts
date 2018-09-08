@@ -1,3 +1,3 @@
 export default class AuthState {
-  currentUser?: object;
+  currentUser: object | null = null;
 }

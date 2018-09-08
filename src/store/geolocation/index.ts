@@ -1,14 +1,13 @@
-import AuthState, { ILatLng } from './state';
 import { Module } from 'vuex';
 import * as geolocationService from '@/services/geolocation';
 import RootState from '@/store/state';
-import GeolocationState from './state';
+import GeolocationState, { ILatLng } from './state';
 
 enum Mutations {
   UPDATE_COORDS = 'UPDATE_COORDS'
 }
 
-const module: Module<AuthState, RootState> = {
+const module: Module<GeolocationState, RootState> = {
   namespaced: true,
   state: new GeolocationState(),
 
@@ -25,13 +24,13 @@ const module: Module<AuthState, RootState> = {
   },
 
   mutations: {
-    [Mutations.UPDATE_COORDS]: (state: AuthState, coords: ILatLng) => {
+    [Mutations.UPDATE_COORDS]: (state: GeolocationState, coords: ILatLng) => {
       state.coords = coords;
     }
   },
 
   getters: {
-    coords: ({ coords }: AuthState) => coords
+    coords: ({ coords }: GeolocationState) => coords
   }
 };
 

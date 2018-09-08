@@ -12,7 +12,7 @@ const module: Module<AuthState, RootState> = {
   state: new AuthState(),
 
   actions: {
-    getCurrentUser: async ({ commit }) => {
+    authenticate: async ({ commit }) => {
       try {
         // Get a currently authenticated user
         const user = await authService.getCurrentUser();
@@ -34,6 +34,10 @@ const module: Module<AuthState, RootState> = {
     [Mutations.SET_CURRENT_USER]: (state, user: object) => {
       state.currentUser = user;
     }
+  },
+
+  getters: {
+    currentUser: ({ currentUser }) => currentUser
   }
 };
 
