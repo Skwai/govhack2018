@@ -22,8 +22,13 @@ export const trashosaur: IMobType = {
   attacks: [
     {
       name: 'Spill',
-      damageRange: [1, 3],
-      missChance: 0.5
+      damageRange: [1, 2],
+      missChance: 0.25
+    },
+    {
+      name: 'Combust',
+      damageRange: [2, 4],
+      missChance: 0.75
     }
   ]
 };

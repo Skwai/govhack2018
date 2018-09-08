@@ -1,8 +1,8 @@
 <template>
   <div class="FightView">
     <div class="FightView__Trashemon">
-      <h5>Scumosaur</h5>
-      <h6>Level 12</h6>
+      <h5>{{trashemon.name}}</h5>
+      <h6>Level {{trashemonLevel}}</h6>
       <MobHealthBar :current="80" :total="100" />
     </div>
 
@@ -10,7 +10,7 @@
 
     <div class="FightView__Enemy">
       <h5>{{mob.name}}</h5>
-      <h6>Level 12</h6>
+      <h6>Level {{mobLevel}}</h6>
       <MobHealthBar :current="50" :total="100" />
     </div>
 
@@ -20,17 +20,25 @@
     
     <div class="FightView__Attacks">
       <AppBtnGroup>
-        <AppBtn>Stink</AppBtn>
-        <AppBtn>Slime</AppBtn>
-        <AppBtn>Tip</AppBtn>
+        <AppBtn
+          v-for="attack in trashemon.attacks"
+          :key="attack.name"
+          @click.prevent="fight(attack)"
+          >
+            {{attack.name}}
+        </AppBtn>
       </AppBtnGroup>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import * as battle from '@/services/battle';
+
 import { Component, Vue } from 'vue-property-decorator';
 import Mob from '@/models/Mob';
+import { IMobAttackType } from '@/data/mobs';
+
 import AppBtn from '@/components/AppBtn.vue';
 import AppBtnGroup from '@/components/AppBtnGroup.vue';
 import MobHealthBar from '@/components/MobHealthBar.vue';
@@ -39,16 +47,39 @@ import MobHealthBar from '@/components/MobHealthBar.vue';
   components: {
     MobHealthBar,
     AppBtn,
-    AppBtnGroup,
+    AppBtnGroup
   }
 })
 export default class FightView extends Vue {
+  fight(attack: IMobAttackType) {
+    const res: battle.IFightResult = battle.fight(this.trashemon, this.mob, attack);
+    switch (res.outcome) {
+      case battle.OutcomeType.MISS:
+        alert('You missed!');
+        break;
+      case battle.OutcomeType.HIT:
+        alert('You hit for ' + res.damage + '!');
+        break;
+      case battle.OutcomeType.CRITICAL:
+        alert('CRITICAL HIT!! You did ' + res.damage + ' damage!');
+        break;
+    }
+  }
+
   get mob(): Mob {
     return this.$store.getters['game/currentMob'];
   }
 
+  get mobLevel(): number {
+    return Mob.xpToLevel(this.mob.xp);
+  }
+
   get trashemon(): Mob {
     return this.$store.getters['game/currentTrashemon'];
+  }
+
+  get trashemonLevel(): number {
+    return Mob.xpToLevel(this.trashemon.xp);
   }
 }
 </script>
