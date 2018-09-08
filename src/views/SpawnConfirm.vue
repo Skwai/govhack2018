@@ -1,11 +1,15 @@
 <template>
-  <div class="StableView">
+  <div class="SpawnConfirm">
     <AppModal>
-      <h2>You have encountered a wild</h2>
-      <h3>{{mob.name}}</h3>
-      <h4>Level {{mob.level}}</h4>
-      <button type="button" @click.prevent="flee">Run away</button>
-      <button type="button" @click.prevent="fight">Fight</button>
+      <AppModalContent>
+        <h4>You have encountered a wild</h4>
+        <h2>{{mob.name}}</h2>
+        <h5>Level {{mob.level}}</h5>
+      </AppModalContent>
+      <AppBtnGroup>
+        <AppBtn type="button" @click.prevent="flee">Run away</AppBtn>
+        <AppBtn color="primary" type="button" @click.prevent="fight">Fight</AppBtn>
+      </AppBtnGroup>
     </AppModal>
   </div>
 </template>
@@ -13,11 +17,17 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import AppModal from '@/components/AppModal.vue'
+import AppBtnGroup from '@/components/AppBtnGroup.vue'
+import AppBtn from '@/components/AppBtn.vue';
+import AppModalContent from '@/components/AppModalContent.vue';
 import Mob from '@/models/Mob';
 
 @Component({
   components: {
-    AppModal
+    AppModal,
+    AppBtn,
+    AppBtnGroup,
+    AppModalContent
   }
 })
 export default class SpawnConfirm extends Vue {
@@ -29,8 +39,11 @@ export default class SpawnConfirm extends Vue {
     return this.$store.getters['game/currentMob']
   }
 
-  async flee() {
+  async created() {
     await this.$store.dispatch('game/updateSpawnCooldown', this.spawnId)
+  }
+
+  async flee() {
     this.$router.push({ name: 'Home' })
   }
 
@@ -40,3 +53,9 @@ export default class SpawnConfirm extends Vue {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.SpawnConfirm {
+  text-align: center;
+}
+</style>

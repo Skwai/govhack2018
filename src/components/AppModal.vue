@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class AppModal extends Vue {}
@@ -18,7 +18,7 @@ export default class AppModal extends Vue {}
 
 <style lang="stylus" scoped>
 .AppModal {
-  background: rgba(0,0,0,.15);
+  background: rgba(0, 0, 0, 0.15);
   position: fixed;
   left: 0;
   top: 0;
@@ -33,7 +33,7 @@ export default class AppModal extends Vue {}
     background: #fff;
     width: 90vw;
     max-width: 20rem;
-    padding: 1.5rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0.25rem 1rem, rgba(0, 0, 0, 0.1) 0 1px 1px;
   }
 }
 </style>

@@ -28,12 +28,22 @@ export const trashasaur: IMobType = {
   ]
 };
 
+export enum MobTypes {
+  TRASHOAUR = '25lt Drop Plastic',
+  SCUMOSAUR = '120lt Doggie Bins',
+  FILTHOSAUR = '120lt Cage General Waste',
+  DANKOSAUR = '240lt Cage General Waste',
+  SEEDOSAUR = 'Stainless Steel Box',
+  DOGOSAUR = 'Dog Refuse Bag Dispenser',
+  STANKOSAUR = 'Stainless Steel/Mod Wood'
+}
+
 const mobs: Map<string, IMobType> = new Map();
-mobs.set('25lt Drop Plastic', trashasaur);
-mobs.set('120lt Doggie Bins', trashasaur);
-mobs.set('120lt Cage General Waste', trashasaur);
-mobs.set('240lt Cage General Waste', trashasaur);
-mobs.set('Stainless Steel Box', trashasaur);
-mobs.set('Dog Refuse Bag Dispenser', trashasaur);
-mobs.set('Stainless Steel/Mod Wood', trashasaur);
+mobs.set(MobTypes.TRASHOAUR, trashasaur);
+mobs.set(MobTypes.SCUMOSAUR, trashasaur);
+mobs.set(MobTypes.FILTHOSAUR, trashasaur);
+mobs.set(MobTypes.DANKOSAUR, trashasaur);
+mobs.set(MobTypes.SEEDOSAUR, trashasaur);
+mobs.set(MobTypes.DOGOSAUR, trashasaur);
+mobs.set(MobTypes.STANKOSAUR, trashasaur);
 export default mobs;
