@@ -1,17 +1,26 @@
-import Spawn, { spawnTypeMap } from '@/models/Spawn';
+import Spawn from '@/models/Spawn';
+import mobs, { IMobType, IMobAttackType } from '@/data/mobs';
 
 export default class Mob {
-  type: string = '';
   level: number = 0;
   name: string = '';
   health: number = 0;
+  attacks: IMobAttackType[] = [];
 
   static fromSpawn(spawn: Spawn) {
+    const mobType = mobs.get(spawn.type)!;
+    return Mob.fromType(mobType);
+  }
+
+  static fromType(mobType: IMobType) {
     const mob = new Mob();
-    mob.type = spawn.type;
-    mob.level = Math.ceil(Math.random() * 10);
-    mob.name = spawn.name!;
-    mob.health = mob.level * 10;
+    const [minLevel, maxLevel] = mobType.spawnLevelRange;
+    const level = minLevel + Math.floor(Math.random() * (maxLevel - minLevel));
+
+    mob.name = mobType.name;
+    mob.level = level;
+    mob.name = mobType.name;
+    mob.attacks = mobType.attacks;
     return mob;
   }
 }
