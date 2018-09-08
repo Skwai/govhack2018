@@ -21,9 +21,10 @@ export default class TheMap extends Vue {
   }
 
   @Watch('coords')
-  onCoordsUpdate({ lat, lng }: ILatLng) {
-    if (lat && lng && this.map) {
-      this.map.setCenter({ lat, lng })
+  onCoordsUpdate(newCoords: ILatLng) {
+    if (newCoords && this.map) {
+      this.map.setCenter({ lat: newCoords.lat, lng: newCoords.lng })
+      this.$store.dispatch('game/updateCurrentUserCoordinates', newCoords)
     }
   }
 
