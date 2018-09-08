@@ -14,7 +14,7 @@ enum Mutations {
   INSERT_SPAWNS = 'INSERT_SPAWNS',
   UPDATE_SPAWN_COOLDOWN = 'UPDATE_SPAWN_COOLDOWN',
   SET_CURRENT_MOB = 'SET_CURRENT_MOB',
-  SET_CURRENT_USER = 'SET_CURRENT_USER'
+  UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER'
 }
 
 const module: Module<GameState, RootState> = {
@@ -75,8 +75,28 @@ const module: Module<GameState, RootState> = {
           id: uid
         });
         await transaction.set(docRef, { ...user }, { merge: true });
-        commit(Mutations.SET_CURRENT_USER, user);
+        commit(Mutations.UPDATE_CURRENT_USER, user);
       });
+    },
+
+    updateCurrentUserCoordinates: async ({ commit, state: { currentUser } }, coords) => {
+      if (!currentUser) {
+        throw TypeError('There is no current user');
+      }
+      if (!coords) {
+        throw TypeError('Missing `coords`');
+      }
+      const { id } = currentUser;
+      const data = {
+        coordinates: new firestore.GeoPoint(coords.lat, coords.lng),
+        updated: firestore.Timestamp.fromDate(new Date())
+      };
+
+      const docRef = db.collection('users').doc(id);
+      await docRef.update(data);
+      const doc = await docRef.get();
+      const user = new User({ id: doc.id, ...doc.data() });
+      commit(Mutations.UPDATE_CURRENT_USER, user);
     }
   },
 
@@ -84,9 +104,11 @@ const module: Module<GameState, RootState> = {
     [Mutations.ADD_SPAWN](state: GameState, spawn: Spawn) {
       state.spawns.push(spawn);
     },
+
     [Mutations.INSERT_SPAWNS](state: GameState, spawns: Spawn[]) {
       state.spawns = spawns;
     },
+
     [Mutations.UPDATE_SPAWN_COOLDOWN](
       { spawns }: GameState,
       { spawnId, cooldown }: { spawnId: string; cooldown: firebase.firestore.Timestamp }
@@ -96,10 +118,12 @@ const module: Module<GameState, RootState> = {
         spawn.cooldown = cooldown;
       }
     },
+
     [Mutations.SET_CURRENT_MOB](state: GameState, mob: Mob) {
       state.currentMob = mob;
     },
-    [Mutations.SET_CURRENT_USER](state: GameState, user: User) {
+
+    [Mutations.UPDATE_CURRENT_USER](state: GameState, user: User) {
       state.currentUser = user;
     }
   },
