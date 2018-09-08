@@ -8,6 +8,113 @@ import { Position } from 'vue-router/types/router';
 import Spawn from '@/models/Spawn';
 import { ILatLng } from '@/store/geolocation/state';
 
+const MAP_STYLE: google.maps.MapTypeStyle[] = [
+  {
+    featureType: 'administrative',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
+  },
+  {
+    featureType: 'poi',
+    stylers: [
+      {
+        visibility: 'simplified'
+      }
+    ]
+  },
+  {
+    featureType: 'road',
+    elementType: 'labels',
+    stylers: [
+      {
+        visibility: 'simplified'
+      }
+    ]
+  },
+  {
+    featureType: 'water',
+    stylers: [
+      {
+        visibility: 'simplified'
+      }
+    ]
+  },
+  {
+    featureType: 'transit',
+    stylers: [
+      {
+        visibility: 'simplified'
+      }
+    ]
+  },
+  {
+    featureType: 'landscape',
+    stylers: [
+      {
+        visibility: 'simplified'
+      }
+    ]
+  },
+  {
+    featureType: 'road.highway',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
+  },
+  {
+    featureType: 'road.local',
+    stylers: [
+      {
+        visibility: 'on'
+      }
+    ]
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'geometry',
+    stylers: [
+      {
+        visibility: 'on'
+      }
+    ]
+  },
+  {
+    featureType: 'water',
+    stylers: [
+      {
+        color: '#84afa3'
+      },
+      {
+        lightness: 52
+      }
+    ]
+  },
+  {
+    stylers: [
+      {
+        saturation: -17
+      },
+      {
+        gamma: 0.36
+      }
+    ]
+  },
+  {
+    featureType: 'transit.line',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#3f518c'
+      }
+    ]
+  }
+];
+
 @Component
 export default class TheMap extends Vue {
   map?: google.maps.Map;
@@ -44,16 +151,22 @@ export default class TheMap extends Vue {
     await this.$store.dispatch('geolocation/watchPosition');
     await this.$store.dispatch('game/getSpawns', this.coords);
     const { lat, lng } = this.coords;
+    const zoom = 20;
     this.map = new google.maps.Map(this.$el, {
       center: { lat, lng },
-      zoom: 15, // 18 default
+      zoom: zoom,
       disableDoubleClickZoom: true,
-      draggable: true,
+      draggable: false,
       streetViewControl: false,
       fullscreenControl: false,
       mapTypeControl: false,
       scrollwheel: false,
-      zoomControl: false
+      zoomControl: false,
+      minZoom: zoom,
+      maxZoom: zoom,
+      panControl: false,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      styles: MAP_STYLE
     });
     this.addSpawnsToMap(this.spawns);
 
@@ -63,7 +176,7 @@ export default class TheMap extends Vue {
       icon: {
         url:
           'https://www.freeiconspng.com/uploads/icon-png-people-user-icon-png-executive-person-icon-man-icon-png--30.png',
-        scaledSize: new google.maps.Size(16, 16)
+        scaledSize: new google.maps.Size(128, 128)
       },
       zIndex: 100
     });
@@ -78,7 +191,7 @@ export default class TheMap extends Vue {
 
     const icon = {
       url: 'https://image.flaticon.com/icons/png/128/70/70388.png',
-      scaledSize: new google.maps.Size(6, 6)
+      scaledSize: new google.maps.Size(64, 64)
     };
     const markers = spawns.map((spawn) => {
       const { latitude: lat, longitude: lng } = spawn.coordinates;
