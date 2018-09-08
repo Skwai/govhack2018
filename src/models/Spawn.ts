@@ -1,13 +1,7 @@
 import { firestore } from 'firebase';
+import mobs, { IMobType } from '@/data/mobs';
 
 export type SpawnProperties = Required<Spawn>;
-
-export const spawnTypeMap = new Map([
-  ['25lt Drop Plastic', 'Dankosaur'],
-  ['120lt Doggie Bins', 'Trashosaur'],
-  ['120lt Cage General Waste', 'Filthosaur'],
-  ['Stainless Steel Box', 'Scumosoar']
-]);
 
 export default class Spawn {
   id?: string;
@@ -18,8 +12,12 @@ export default class Spawn {
   lat!: number;
   lng!: number;
 
-  get name(): string | undefined {
-    return spawnTypeMap.get(this.type);
+  get mob(): IMobType {
+    return mobs.get(this.type)!;
+  }
+
+  get name(): string {
+    return this.mob.name;
   }
 
   constructor(props: SpawnProperties) {

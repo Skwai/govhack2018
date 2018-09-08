@@ -29,7 +29,8 @@ export default class SpawnView extends Vue {
       this.$router.push('/')
       return;
     }
-    this.$store.dispatch('game/setCurrentMob', Mob.fromSpawn(this.spawn))
+    const mob = Mob.fromSpawn(this.spawn)
+    this.$store.dispatch('game/setCurrentMob', mob)
   }
 
   destroyed() {

@@ -7,8 +7,8 @@ import { SPAWN_COOLDOWN_DURATION_MINUTES } from '@/config';
 import { firestore } from 'firebase';
 import db from '@/services/firestore';
 import { ILatLng } from '@/store/geolocation/state';
-import User, { UserProperties } from '@/models/User';
-import { getCurrentPosition } from '@/services/geolocation';
+import User from '@/models/User';
+import mobs, { MobTypes } from '@/data/mobs';
 
 enum Mutations {
   ADD_SPAWN = 'ADD_SPAWN',
@@ -17,6 +17,7 @@ enum Mutations {
   SET_CURRENT_MOB = 'SET_CURRENT_MOB',
   UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER',
   INSERT_USERS = 'INSERT_USERS',
+  ADD_TRASHEMON = 'ADD_TRASHEMON'
 }
 
 const AREA_LAT = 0.002;
@@ -24,7 +25,7 @@ const AREA_LONG = 0.002;
 
 const inBetween = (target: ILatLng, loc1: ILatLng, loc2: ILatLng): boolean => {
   return target.lat >= loc1.lat && target.lat <= loc2.lat && target.lng >= loc1.lng && target.lng <= loc2.lng;
-}
+};
 const module: Module<GameState, RootState> = {
   namespaced: true,
   state: new GameState(),
@@ -128,6 +129,55 @@ const module: Module<GameState, RootState> = {
       const doc = await docRef.get();
       const user = new User({ id: doc.id, ...doc.data() });
       commit(Mutations.UPDATE_CURRENT_USER, user);
+    },
+
+    addTrashemonToCurrentUserStable: async ({ commit, state: { currentUser } }, trashemon: Trashemon) => {
+      if (!currentUser) {
+        throw TypeError('There is no current user');
+      }
+      if (!trashemon) {
+        throw TypeError('Missing `trashemon`');
+      }
+      const docRef = db
+        .collection('users')
+        .doc(currentUser.id)
+        .collection('trashemon')
+        .doc();
+      // Clone object to prevent mutation of original
+      const clone = { ...trashemon };
+      clone.userId = currentUser.id;
+      clone.id = docRef.id;
+      await docRef.update(clone);
+      commit(Mutations.ADD_TRASHEMON, clone);
+    },
+
+    getUsersTrashemon: async ({ commit }, { uid }: { uid: string }) => {
+      if (!uid) {
+        throw TypeError('Missing `uid`');
+      }
+      const snapshots = await db
+        .collection('users')
+        .doc(uid)
+        .collection('trashemon')
+        .get();
+
+      if (!snapshots.empty) {
+        snapshots.forEach((doc) => {
+          commit(Mutations.ADD_TRASHEMON, doc.data());
+        });
+        return;
+      }
+
+      const docRef = db
+        .collection('users')
+        .doc(uid)
+        .collection('trashemon')
+        .doc();
+      const trashemon = Trashemon.fromType(mobs.get(MobTypes.TRASHOAUR)!) as Trashemon;
+      trashemon.userId = uid;
+      trashemon.id = docRef.id;
+      await docRef.set({ ...trashemon });
+      commit(Mutations.ADD_TRASHEMON, trashemon);
     }
   },
 
@@ -162,13 +212,18 @@ const module: Module<GameState, RootState> = {
       state.users = users;
     },
 
+    [Mutations.ADD_TRASHEMON](state: GameState, trashemon: Trashemon) {
+      state.trashemons.push(trashemon);
+    }
   },
 
   getters: {
     spawns: ({ spawns }: GameState) => spawns,
     users: ({ users }: GameState) => users,
     currentMob: ({ currentMob }: GameState) => currentMob,
-    spawnById: ({ spawns }: GameState) => (spawnId: string) => spawns.find(({ id }) => id === spawnId)
+    spawnById: ({ spawns }: GameState) => (spawnId: string) => spawns.find(({ id }) => id === spawnId),
+    currentUserTrashemons: ({ trashemons, currentUser }) =>
+      trashemons.filter(({ userId }) => currentUser && userId === currentUser.id)
   }
 };
 
