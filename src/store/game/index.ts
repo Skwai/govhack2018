@@ -175,7 +175,7 @@ const module: Module<GameState, RootState> = {
         .doc(uid)
         .collection('trashemon')
         .doc();
-      const trashemon = Trashemon.fromType(mobs.get(MobTypes.TRASHOAUR)!) as Trashemon;
+      const trashemon = Trashemon.fromType(mobs.get(MobTypes.TRASHOSAUR)!) as Trashemon;
       trashemon.userId = uid;
       trashemon.id = docRef.id;
       await docRef.set({ ...trashemon });
