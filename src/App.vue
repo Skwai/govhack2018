@@ -39,11 +39,14 @@ export default class App extends Vue {
   async created(): Promise<void> {
     this.loading = true;
     try {
-      await Promise.all([      
-        this.$store.dispatch('auth/getCurrentUser'),
-        this.$store.dispatch('geolocation/getCurrentPosition'),
-        this.$store.dispatch('game/getSpawns')
+      await Promise.all([
+        await this.$store.dispatch('game/getSpawns'),
+        await this.$store.dispatch('auth/authenticate'),
+        await this.$store.dispatch('geolocation/getCurrentPosition')
       ])
+      const { uid } = this.$store.getters['auth/currentUser'];
+      const coords = this.$store.getters['geolocation/coords'];
+      await this.$store.dispatch('game/getOrCreateUser', { uid, coords});
     } finally {
       this.loading = false;
     }

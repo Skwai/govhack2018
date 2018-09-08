@@ -1,17 +1,20 @@
 import { Module } from 'vuex';
-import Spawn, { ISpawnProperties } from '@/models/Spawn';
+import Spawn, { SpawnProperties } from '@/models/Spawn';
 import Mob from '@/models/Mob';
 import GameState from './state';
 import RootState from '@/store/state';
 import { SPAWN_COOLDOWN_DURATION_MINUTES } from '@/config';
 import { firestore } from 'firebase';
 import db from '@/services/firestore';
+import { ILatLng } from '@/store/geolocation/state';
+import User from '@/models/User';
 
 enum Mutations {
   ADD_SPAWN = 'ADD_SPAWN',
   INSERT_SPAWNS = 'INSERT_SPAWNS',
   UPDATE_SPAWN_COOLDOWN = 'UPDATE_SPAWN_COOLDOWN',
-  SET_CURRENT_MOB = 'SET_CURRENT_MOB'
+  SET_CURRENT_MOB = 'SET_CURRENT_MOB',
+  SET_CURRENT_USER = 'SET_CURRENT_USER'
 }
 
 const module: Module<GameState, RootState> = {
@@ -24,12 +27,13 @@ const module: Module<GameState, RootState> = {
       const spawns: Spawn[] = [];
       docs.forEach((doc) => {
         const { id } = doc;
-        const data = doc.data() as ISpawnProperties;
+        const data = doc.data() as SpawnProperties;
         const mob = new Spawn({ id, ...data });
         spawns.push(mob);
       });
       commit(Mutations.INSERT_SPAWNS, spawns);
     },
+
     updateSpawnCooldown: async ({ commit }, spawnId: string) => {
       const docRef = db.collection('spawns').doc(spawnId);
       await db.runTransaction(async (transaction: firestore.Transaction) => {
@@ -40,13 +44,39 @@ const module: Module<GameState, RootState> = {
           cooldown
         });
         commit(Mutations.UPDATE_SPAWN_COOLDOWN, cooldown);
+        return transaction;
       });
     },
+
     setCurrentMob: async ({ commit }, mob: Mob) => {
       commit(Mutations.SET_CURRENT_MOB, mob);
     },
+
     unsetCurrentMob: async ({ commit }) => {
       commit(Mutations.SET_CURRENT_MOB, null);
+    },
+
+    getOrCreateUser: async ({ commit }, { uid, coords }: { uid: string; coords: ILatLng }) => {
+      if (!uid) {
+        throw TypeError('Missing `uid`');
+      }
+      if (!coords) {
+        throw TypeError('Missing `coords`');
+      }
+      await db.runTransaction(async (transaction: firestore.Transaction) => {
+        const docRef = db.collection('users').doc(uid);
+        const doc = await transaction.get(docRef);
+        const data = doc.exists ? doc.data() : undefined;
+
+        const user = new User({
+          coordinates: new firestore.GeoPoint(coords.lat, coords.lng),
+          updated: firestore.Timestamp.fromDate(new Date()),
+          username: data && data.username ? data.username : `Trashemon ${new Date().getTime()}`,
+          id: uid
+        });
+        await transaction.set(docRef, { ...user }, { merge: true });
+        commit(Mutations.SET_CURRENT_USER, user);
+      });
     }
   },
 
@@ -68,6 +98,9 @@ const module: Module<GameState, RootState> = {
     },
     [Mutations.SET_CURRENT_MOB](state: GameState, mob: Mob) {
       state.currentMob = mob;
+    },
+    [Mutations.SET_CURRENT_USER](state: GameState, user: User) {
+      state.currentUser = user;
     }
   },
 

@@ -1,4 +1,6 @@
-export type ISpawnProperties = Required<Spawn>;
+import { firestore } from 'firebase';
+
+export type SpawnProperties = Required<Spawn>;
 
 export const spawnTypeMap = new Map([
   ['25lt Drop Plastic', 'Dankosaur'],
@@ -10,15 +12,15 @@ export const spawnTypeMap = new Map([
 export default class Spawn {
   id?: string;
 
-  coordinates!: firebase.firestore.GeoPoint;
-  cooldown!: firebase.firestore.Timestamp;
+  coordinates!: firestore.GeoPoint;
+  cooldown!: firestore.Timestamp;
   type!: string;
 
   get name(): string | undefined {
     return spawnTypeMap.get(this.type);
   }
 
-  constructor(options: ISpawnProperties) {
-    Object.assign(this, options);
+  constructor(props: SpawnProperties) {
+    Object.assign(this, props);
   }
 }
