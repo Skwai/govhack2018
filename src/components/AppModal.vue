@@ -35,7 +35,7 @@ export default class AppModal extends Vue {}
   &__Content {
     background: #FFF;
     max-width: 20rem;
-    box-shadow: rgba(#292524, 0.1) 0.5rem 0.5rem 0;
+    box-shadow: #292524 0 0 0 1px, rgba(#292524, 0.1) 0.5rem 0.5rem 0;
   }
 }
 </style>

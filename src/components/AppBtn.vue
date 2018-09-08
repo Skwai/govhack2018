@@ -71,6 +71,9 @@ export default class AppBtn extends Vue {
   transition: 0.15s background;
   justify-content: center;
   background-color: $colorSecondary;
+  color: #fff;
+  box-shadow: #292524 0 0 0 1px;
+  text-shadow: 2px 2px 0 #292524, -1px -1px 0 #292524, 1px -1px 0 #292524, -1px 1px 0 #292524, 1px 1px 0 #292524;
 
   &:hover, &:focus {
     color: $colorPrimary;
@@ -108,15 +111,8 @@ export default class AppBtn extends Vue {
     transform: translate(-50%, -50%);
   }
 
-  &[color='stroke'] {
-    box-shadow: inset rgba($colorPrimary, 0.5) 0 0 0 1px;
-    color: $colorPrimary;
-  }
-
   &[color='primary'] {
     background: $colorPrimary;
-    box-shadow: none;
-    color: #fff;
 
     &:hover, &:focus {
       background: lighten($colorPrimary, 7%);

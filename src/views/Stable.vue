@@ -12,9 +12,10 @@
         tabindex="-1"
         @click="selectTrashemon(trashemon.id)"
       >
+        <img class="StableView__Avatar" src="/avatar.png">
         <div>
-          <h3>{{trashemon.name}}</h3>
-          <p>Level {{xpToLevel(trashemon.xp)}}</p>
+          <h4>{{trashemon.name}}</h4>
+          <p><small>Level {{xpToLevel(trashemon.xp)}}</small></p>
         </div>
       </div>
       <AppBtnGroup>
@@ -107,7 +108,7 @@ export default class StableView extends Vue {
   &__Avatar {
     height: 2rem;
     width: 2rem;
-    object-fit: cover;
+    object-fit: contain;
     margin-right: 1rem;
   }
 }
