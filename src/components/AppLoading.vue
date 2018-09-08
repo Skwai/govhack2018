@@ -1,18 +1,13 @@
 <template>
   <div class="AppLoading">
-    <AppSpinner />
+    Loading...
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import AppSpinner from '@/components/AppSpinner.vue'
 
-@Component({
-  components: {
-    AppSpinner
-  }
-})
+@Component
 export default class AppLoading extends Vue {}
 </script>
 

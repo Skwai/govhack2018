@@ -9,9 +9,28 @@ export const FIREBASE = {
 
 export const SPAWN_COOLDOWN_DURATION_MINUTES = 10;
 
-export const MAP_STYLE: google.maps.MapTypeStyle[] = [
+export const MAP_STYLE: any = [
+  {
+    featureType: 'all',
+    elementType: 'all',
+    stylers: [
+      {
+        saturation: '32'
+      },
+      {
+        lightness: '-3'
+      },
+      {
+        visibility: 'on'
+      },
+      {
+        weight: '1.18'
+      }
+    ]
+  },
   {
     featureType: 'administrative',
+    elementType: 'labels',
     stylers: [
       {
         visibility: 'off'
@@ -19,10 +38,32 @@ export const MAP_STYLE: google.maps.MapTypeStyle[] = [
     ]
   },
   {
-    featureType: 'poi',
+    featureType: 'landscape',
+    elementType: 'labels',
     stylers: [
       {
-        visibility: 'simplified'
+        visibility: 'off'
+      }
+    ]
+  },
+  {
+    featureType: 'landscape.man_made',
+    elementType: 'all',
+    stylers: [
+      {
+        saturation: '-70'
+      },
+      {
+        lightness: '14'
+      }
+    ]
+  },
+  {
+    featureType: 'poi',
+    elementType: 'labels',
+    stylers: [
+      {
+        visibility: 'off'
       }
     ]
   },
@@ -31,36 +72,13 @@ export const MAP_STYLE: google.maps.MapTypeStyle[] = [
     elementType: 'labels',
     stylers: [
       {
-        visibility: 'simplified'
-      }
-    ]
-  },
-  {
-    featureType: 'water',
-    stylers: [
-      {
-        visibility: 'simplified'
+        visibility: 'off'
       }
     ]
   },
   {
     featureType: 'transit',
-    stylers: [
-      {
-        visibility: 'simplified'
-      }
-    ]
-  },
-  {
-    featureType: 'landscape',
-    stylers: [
-      {
-        visibility: 'simplified'
-      }
-    ]
-  },
-  {
-    featureType: 'road.highway',
+    elementType: 'labels',
     stylers: [
       {
         visibility: 'off'
@@ -68,49 +86,26 @@ export const MAP_STYLE: google.maps.MapTypeStyle[] = [
     ]
   },
   {
-    featureType: 'road.local',
+    featureType: 'water',
+    elementType: 'all',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'geometry',
-    stylers: [
+        saturation: '100'
+      },
       {
-        visibility: 'on'
+        lightness: '-14'
       }
     ]
   },
   {
     featureType: 'water',
+    elementType: 'labels',
     stylers: [
       {
-        color: '#84afa3'
+        visibility: 'off'
       },
       {
-        lightness: 52
-      }
-    ]
-  },
-  {
-    stylers: [
-      {
-        saturation: -17
-      },
-      {
-        gamma: 0.36
-      }
-    ]
-  },
-  {
-    featureType: 'transit.line',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#3f518c'
+        lightness: '12'
       }
     ]
   }

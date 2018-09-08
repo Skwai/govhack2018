@@ -1,10 +1,10 @@
 <template>
-  <div class="SpawnConfirm">
+  <div class="SpawnConfirmView">
     <AppModal>
       <AppModalContent>
         <h4>You have encountered a wild</h4>
         <h2>{{mob.name}}</h2>
-        <h5>Level {{mob.level}}</h5>
+        <h5>Level {{xpToLevel(mob.xp)}}</h5>
       </AppModalContent>
       <AppBtnGroup>
         <AppBtn type="button" @click.prevent="flee">Flee</AppBtn>
@@ -30,7 +30,7 @@ import Mob from '@/models/Mob';
     AppModalContent
   }
 })
-export default class SpawnConfirm extends Vue {
+export default class SpawnConfirmView extends Vue {
   get spawnId(): string {
     return this.$route.params.spawnId
   }
@@ -43,19 +43,27 @@ export default class SpawnConfirm extends Vue {
     await this.$store.dispatch('game/updateSpawnCooldown', this.spawnId)
   }
 
-  async flee() {
+  xpToLevel(xp: number): number {
+    return Mob.xpToLevel(xp)
+  }
+
+  flee() {
     this.$router.push({ name: 'Home' })
   }
 
   fight() {
-    const {spawnId} = this
+    const { spawnId } = this
     this.$router.push({ name: 'Stable', params: { spawnId }})
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.SpawnConfirm {
+.SpawnConfirmView {
   text-align: center;
+
+  h2 {
+    color: #31C3CB;
+  }
 }
 </style>

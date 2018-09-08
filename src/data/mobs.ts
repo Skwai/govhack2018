@@ -14,7 +14,7 @@ export interface IMobAttackType {
 }
 
 export const trashasaur: IMobType = {
-  name: 'Trashasaur',
+  name: 'Trashinator',
   spawnLevelRange: [1, 4],
   baseHealth: 10,
   healthMultiplier: 2,

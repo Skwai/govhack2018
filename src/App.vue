@@ -52,7 +52,7 @@ export default class App extends Vue {
 </script>
 
 <style lang="stylus">
-@import './styles/config';
+@require './styles/config';
 
 .App {
   font-family: $fontFamily;

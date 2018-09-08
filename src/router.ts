@@ -2,6 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Seed from './views/Seed.vue';
+import Spawn from './views/Spawn.vue';
+import SpawnConfirm from './views/SpawnConfirm.vue';
+import Stable from './views/Stable.vue';
+import Fight from './views/Fight.vue';
 
 Vue.use(Router);
 
@@ -16,23 +20,22 @@ export default new Router({
     },
     {
       path: '/spawn/:spawnId',
-      name: 'Spawn',
-      component: () => import(/* webpackChunkName: "spawn" */ './views/Spawn.vue'),
+      component: Spawn,
       children: [
         {
           path: '',
-          name: 'SpawnConfirm',
-          component: () => import(/* webpackChunkName: "spawnConfirm" */ './views/SpawnConfirm.vue')
+          name: 'Spawn',
+          component: SpawnConfirm
         },
         {
           path: 'stable',
           name: 'Stable',
-          component: () => import(/* webpackChunkName: "stable" */ './views/Stable.vue')
+          component: Stable
         },
         {
           path: 'fight',
           name: 'Fight',
-          component: () => import(/* webpackChunkName: "fight" */ './views/Fight.vue')
+          component: Fight
         }
       ]
     },
@@ -40,6 +43,6 @@ export default new Router({
       path: '/seed',
       name: 'Seed',
       component: Seed
-    },
+    }
   ]
 });

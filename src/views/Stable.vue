@@ -2,7 +2,7 @@
   <div class="StableView">
     <AppModal>
       <AppModalContent>
-        <h4>Select a Trashemon to fight with</h4>
+        <h4>Select a Bin to fight with</h4>
       </AppModalContent>
       <div
         v-for="trashemon in trashemons"
@@ -12,8 +12,11 @@
         tabindex="-1"
         @click="selectTrashemon(trashemon.id)"
       >
-        <h3>{{trashemon.name}}</h3>
-        <p>Level {{xpToLevel(trashemon.xp)}}</p>
+        <img src="../assets/icon.png" class="StableView__Avatar">
+        <div>
+          <h3>{{trashemon.name}}</h3>
+          <p>Level {{xpToLevel(trashemon.xp)}}</p>
+        </div>
       </div>
       <AppBtnGroup>
         <AppBtn :disabled="!selectedTrashemonId" color="primary" @click.prevent="confirm">Confirm</AppBtn>
@@ -68,9 +71,15 @@ export default class StableView extends Vue {
 .StableView {
   text-align: center;
 
+  h4 {
+    margin: 0;
+  }
+
   &__Trashemon {
-    padding: 1.5rem 1.5rem;
+    padding: 1rem 1rem;
     text-align: left;
+    display: flex;
+    align-items: center;
 
     &:focus {
       outline: 0;
@@ -86,8 +95,19 @@ export default class StableView extends Vue {
     }
 
     &[aria-selected='true'] {
-      background: $colorSecondary;
+      background: #F8BE1F;
     }
+
+    h3, p {
+      margin: 0;
+    }
+  }
+
+  &__Avatar {
+    height: 2rem;
+    width: 2rem;
+    object-fit: cover;
+    margin-right: 1rem;
   }
 }
 </style>

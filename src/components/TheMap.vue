@@ -64,7 +64,7 @@ export default class TheMap extends Vue {
 
   async mounted() {
     const { lat, lng } = this.coords;
-    const zoom = 18;
+    const zoom = 15;
     this.map = new google.maps.Map(this.$refs.map as Element, {
       center: { lat, lng },
       zoom,
@@ -78,7 +78,7 @@ export default class TheMap extends Vue {
       minZoom: zoom,
       maxZoom: zoom,
       panControl: false,
-      mapTypeId: google.maps.MapTypeId.TERRAIN,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
       styles: MAP_STYLE
     });
 
@@ -115,7 +115,7 @@ export default class TheMap extends Vue {
       });
       marker.addListener('click', () =>
         this.$router.push({
-          name: 'SpawnConfirm',
+          name: 'Spawn',
           params: { spawnId: spawn.id! }
         })
       );

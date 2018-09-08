@@ -17,8 +17,10 @@ export default class AppModal extends Vue {}
 </script>
 
 <style lang="stylus" scoped>
+@require '../styles/config';
+
 .AppModal {
-  background: rgba(0, 0, 0, 0.5);
+  background: #F7F6CC;
   position: fixed;
   left: 0;
   top: 0;
@@ -33,7 +35,7 @@ export default class AppModal extends Vue {}
   &__Content {
     background: #FFF;
     max-width: 20rem;
-    // box-shadow: rgba(0, 0, 0, 0.1) 0 0.25rem 1rem, rgba(0, 0, 0, 0.1) 0 1px 1px;
+    box-shadow: rgba(#292524, 0.1) 0.5rem 0.5rem 0;
   }
 }
 </style>

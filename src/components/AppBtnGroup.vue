@@ -1,6 +1,6 @@
 <template>
   <div class="AppBtnGroup">
-    <slot />
+    <slot></slot>
   </div>
 </template>
 
@@ -14,5 +14,6 @@ export default class AppBtnGroup extends Vue {}
 .AppBtnGroup {
   display: flex;
   align-items: center;
+  box-shadow: #000 0 0 0 1px;
 }
 </style>
