@@ -7,7 +7,7 @@ import { SPAWN_COOLDOWN_DURATION_MINUTES } from '@/config';
 import { firestore } from 'firebase';
 import db from '@/services/firestore';
 import { ILatLng } from '@/store/geolocation/state';
-import User from '@/models/User';
+import User, { UserProperties } from '@/models/User';
 import { getCurrentPosition } from '@/services/geolocation';
 
 enum Mutations {
@@ -15,7 +15,8 @@ enum Mutations {
   INSERT_SPAWNS = 'INSERT_SPAWNS',
   UPDATE_SPAWN_COOLDOWN = 'UPDATE_SPAWN_COOLDOWN',
   SET_CURRENT_MOB = 'SET_CURRENT_MOB',
-  UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER'
+  UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER',
+  INSERT_USERS = 'INSERT_USERS',
 }
 
 const AREA_LAT = 0.002;
@@ -29,7 +30,7 @@ const module: Module<GameState, RootState> = {
   state: new GameState(),
 
   actions: {
-    getSpawns: async ({ commit, state }, coords: ILatLng) => {
+    getSpawns: async ({ commit }, coords: ILatLng) => {
       const { lat, lng } = coords;
       const loc1 = { lat: lat - AREA_LAT, lng: lng - AREA_LONG };
       const loc2 = { lat: lat + AREA_LAT, lng: lng + AREA_LONG };
@@ -47,6 +48,21 @@ const module: Module<GameState, RootState> = {
         }
       });
       commit(Mutations.INSERT_SPAWNS, spawns);
+    },
+
+    getUsers: async ({ commit, state }) => {
+      db.collection('users').onSnapshot((docs) => {
+        const users: User[] = [];
+        docs.forEach((doc) => {
+          const { id } = doc;
+          if (!state.currentUser || id !== state.currentUser.id) {
+            const data = doc.data() as UserProperties;
+            const user = new User({ id, ...data });
+            users.push(user);
+          }
+        });
+        commit(Mutations.INSERT_USERS, users);
+      });
     },
 
     updateSpawnCooldown: async ({ commit }, spawnId: string) => {
@@ -140,11 +156,17 @@ const module: Module<GameState, RootState> = {
 
     [Mutations.UPDATE_CURRENT_USER](state: GameState, user: User) {
       state.currentUser = user;
-    }
+    },
+
+    [Mutations.INSERT_USERS](state: GameState, users: User[]) {
+      state.users = users;
+    },
+
   },
 
   getters: {
     spawns: ({ spawns }: GameState) => spawns,
+    users: ({ users }: GameState) => users,
     currentMob: ({ currentMob }: GameState) => currentMob,
     spawnById: ({ spawns }: GameState) => (spawnId: string) => spawns.find(({ id }) => id === spawnId)
   }

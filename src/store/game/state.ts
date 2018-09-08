@@ -5,5 +5,6 @@ import User from '@/models/User';
 export default class GameState {
   currentMob: Mob | null = null;
   spawns: Spawn[] = [];
+  users: User[] = [];
   currentUser: User | null = null;
 }

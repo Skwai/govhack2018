@@ -1,6 +1,6 @@
 import { firestore } from 'firebase';
 
-type UserProperties = Partial<User>;
+export type UserProperties = Partial<User>;
 
 export default class User {
   id?: string;
