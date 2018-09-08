@@ -1,5 +1,7 @@
 <template>
-  <div class="TheMap"></div>
+  <div class="TheMap">
+    <div class="TheMap__Canvas" ref="map"></div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -62,8 +64,8 @@ export default class TheMap extends Vue {
 
   async mounted() {
     const { lat, lng } = this.coords;
-    const zoom = 19;
-    this.map = new google.maps.Map(this.$el, {
+    const zoom = 18;
+    this.map = new google.maps.Map(this.$refs.map as Element, {
       center: { lat, lng },
       zoom,
       disableDoubleClickZoom: true,
@@ -86,7 +88,7 @@ export default class TheMap extends Vue {
       icon: {
         url:
           'https://www.freeiconspng.com/uploads/icon-png-people-user-icon-png-executive-person-icon-man-icon-png--30.png',
-        scaledSize: new google.maps.Size(128, 128)
+        scaledSize: new google.maps.Size(80, 80)
       },
       zIndex: 100
     });
@@ -101,7 +103,7 @@ export default class TheMap extends Vue {
 
     const icon = {
       url: 'https://image.flaticon.com/icons/png/128/70/70388.png',
-      scaledSize: new google.maps.Size(64, 64)
+      scaledSize: new google.maps.Size(32, 32)
     };
     const markers = spawns.map((spawn) => {
       const { latitude: lat, longitude: lng } = spawn.coordinates;
@@ -130,7 +132,7 @@ export default class TheMap extends Vue {
 
     const icon = {
       url: 'https://www.freeiconspng.com/uploads/-human-male-man-people-person-profile-red-user-icon--icon--23.png',
-      scaledSize: new google.maps.Size(80, 80)
+      scaledSize: new google.maps.Size(60, 60)
     };
 
     users.map((user) => {
@@ -153,5 +155,15 @@ export default class TheMap extends Vue {
 .TheMap {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__Canvas {
+    overflow: hidden;
+    border-radius: 50%;
+    width: 100vw;
+    height: 100vw;
+  }
 }
 </style>
