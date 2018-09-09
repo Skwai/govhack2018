@@ -22,8 +22,8 @@ enum Mutations {
   SET_CURRENT_TRASHEMON = 'SET_CURRENT_TRASHEMON'
 }
 
-const AREA_LAT = 0.002;
-const AREA_LONG = 0.002;
+const AREA_LAT = 0.001;
+const AREA_LONG = 0.001;
 
 const inBetween = (target: ILatLng, loc1: ILatLng, loc2: ILatLng): boolean => {
   return target.lat >= loc1.lat && target.lat <= loc2.lat && target.lng >= loc1.lng && target.lng <= loc2.lng;
@@ -33,7 +33,7 @@ const module: Module<GameState, RootState> = {
   state: new GameState(),
 
   actions: {
-    getSpawns: async ({ commit, state }, coords: ILatLng) => {
+    getSpawns: async ({ commit }, coords: ILatLng) => {
       const { lat, lng } = coords;
       const loc1 = { lat: lat - AREA_LAT, lng: lng - AREA_LONG };
       const loc2 = { lat: lat + AREA_LAT, lng: lng + AREA_LONG };
@@ -41,23 +41,22 @@ const module: Module<GameState, RootState> = {
       const collection = db.collection('spawns');
       const docs = await collection.get();
 
-      const spawns: Spawn[] = state.spawns;
+      const spawns: Spawn[] = [];
 
       docs.forEach((doc) => {
         const { id } = doc;
         const data = doc.data() as SpawnProperties;
-        if (!spawns.find((s) => s.id === id) && inBetween(data, loc1, loc2)) {
+        if (inBetween(data, loc1, loc2) && data.cooldown.toMillis() < Date.now()) {
           const mob = new Spawn({ id, ...data });
           spawns.push(mob);
         }
       });
 
-      const nearSpawns = spawns.filter((spawn) => inBetween(spawn, loc1, loc2));
-      if (nearSpawns.length === 0) {
+      if (spawns.length === 0) {
         const count = Math.floor(1 + Math.random() * 4);
         for (let i = 0; i < count; i++) {
-          const newLat = lat + (Math.random() * 0.002 * 2 - 0.002);
-          const newLng = lng + (Math.random() * 0.002 * 2 - 0.002);
+          const newLat = lat + (Math.random() * AREA_LAT * 2 - AREA_LAT);
+          const newLng = lng + (Math.random() * AREA_LONG * 2 - AREA_LONG);
           const ref = await collection.add({
             coordinates: new firestore.GeoPoint(newLat, newLng),
             lat: newLat,
@@ -69,11 +68,11 @@ const module: Module<GameState, RootState> = {
           const { id } = doc;
           const data = doc.data() as SpawnProperties;
           const mob = new Spawn({ id, ...data });
-          nearSpawns.push(mob);
+          spawns.push(mob);
         }
       }
 
-      commit(Mutations.INSERT_SPAWNS, nearSpawns);
+      commit(Mutations.INSERT_SPAWNS, spawns);
     },
 
     getUsers: async ({ commit, state }) => {
