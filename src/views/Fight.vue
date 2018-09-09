@@ -3,7 +3,7 @@
     <div class="FightView__Trashemon">
       <h5>{{trashemon.name}}</h5>
       <h6>Level {{trashemonLevel}}</h6>
-      <MobHealthBar :current="80" :total="100" />
+      <MobHealthBar :current=trashemonHealth :total=trashemon.health />
     </div>
 
     <div class="FightView__Vs">Vs</div>
@@ -11,7 +11,7 @@
     <div class="FightView__Enemy">
       <h5>{{mob.name}}</h5>
       <h6>Level {{mobLevel}}</h6>
-      <MobHealthBar :current="50" :total="100" />
+      <MobHealthBar :current=mobHealth :total=mob.health />
     </div>
 
     <div class="FightView__EnemyAvatar">
@@ -43,7 +43,7 @@ import * as battle from '@/services/battle';
 
 import { Component, Vue } from 'vue-property-decorator';
 import Mob from '@/models/Mob';
-import mobs,{ IMobAttackType } from '@/data/mobs';
+import mobs, { IMobAttackType } from '@/data/mobs';
 
 import AppBtn from '@/components/AppBtn.vue';
 import AttackResult from '@/components/AttackResult.vue';
@@ -59,10 +59,22 @@ import MobHealthBar from '@/components/MobHealthBar.vue';
   }
 })
 export default class FightView extends Vue {
-  attackResult: any = null;
-  
+  attackResult: battle.IFightResult | null = null;
+  mobHealth: number = 0;
+  trashemonHealth: number = 0;
+
+  created() {
+    this.mobHealth = this.mob.health;
+    this.trashemonHealth = this.trashemon.health;
+  }
+
   fight(attack: IMobAttackType) {
     this.attackResult = battle.fight(this.trashemon, this.mob, attack);
+    this.mobHealth = this.mobHealth - this.attackResult!.damage;
+    if (this.mobHealth <= 0) {
+      alert('win');
+      this.$router.push({ name: 'Home' });
+    }
   }
 
   get mob(): Mob {
@@ -78,8 +90,8 @@ export default class FightView extends Vue {
   }
 
   get trashemonAttacks(): IMobAttackType[] {
-    const mobType = mobs.get(this.trashemon.type)
-    return mobType!.attacks
+    const mobType = mobs.get(this.trashemon.type);
+    return mobType!.attacks;
   }
 
   get trashemonLevel(): number {

@@ -24,6 +24,7 @@ export default class Mob {
     mob.type = mobType.type;
     mob.xp = Mob.levelToXp(level);
     mob.attacks = mobType.attacks;
+    mob.health = mobType.baseHealth * level;
     return mob;
   }
 
