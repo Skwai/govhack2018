@@ -11,6 +11,7 @@ import Spawn from '@/models/Spawn';
 import User from '@/models/User';
 import { ILatLng } from '@/store/geolocation/state';
 import { MAP_STYLE } from '@/config';
+import { MobTypes, trashosaur } from '@/data/mobs';
 
 @Component
 export default class TheMap extends Vue {
@@ -100,12 +101,44 @@ export default class TheMap extends Vue {
     });
     this.currentSpawns = [];
 
-    const icon = {
+    const recycle = {
+      url: './recycle.png',
+      scaledSize: new google.maps.Size(32, 32)
+    };
+
+    const trash = {
       url: './trash_can.png',
       scaledSize: new google.maps.Size(32, 32)
     };
+
+    const trashFlip = {
+      url: './trash_can_flip.png',
+      scaledSize: new google.maps.Size(32, 32)
+    };
+
+    const trashDog = {
+      url: './trash_dog.png',
+      scaledSize: new google.maps.Size(32, 32)
+    };
+
+    const trash1 = {
+      url: './trash1.png',
+      scaledSize: new google.maps.Size(32, 32)
+    };
+
+    const icons: google.maps.Icon[] = [trash, trashFlip, trashDog, recycle, trash1];
+    const hashCode = (s: string): number => {
+      var h = 0,
+        l = s.length,
+        i = 0;
+      if (l > 0) while (i < l) h = (h * 32 - h + s.charCodeAt(i++)) | 0;
+      return h;
+    };
+
     const markers = spawns.map((spawn) => {
       const { latitude: lat, longitude: lng } = spawn.coordinates;
+      const icon = icons[Math.abs(hashCode(spawn.id!)) % icons.length];
+
       const marker = new google.maps.Marker({
         position: { lat, lng },
         map,

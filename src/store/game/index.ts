@@ -22,8 +22,8 @@ enum Mutations {
   SET_CURRENT_TRASHEMON = 'SET_CURRENT_TRASHEMON'
 }
 
-const AREA_LAT = 0.001;
-const AREA_LONG = 0.001;
+const AREA_LAT = 0.0015;
+const AREA_LONG = 0.0015;
 
 const inBetween = (target: ILatLng, loc1: ILatLng, loc2: ILatLng): boolean => {
   return target.lat >= loc1.lat && target.lat <= loc2.lat && target.lng >= loc1.lng && target.lng <= loc2.lng;
