@@ -35,6 +35,7 @@
         </AppBtn>
       </AppBtnGroup>
     </div>
+    <router-view />
   </div>
 </template>
 
@@ -72,8 +73,7 @@ export default class FightView extends Vue {
     this.attackResult = battle.fight(this.trashemon, this.mob, attack);
     this.mobHealth = this.mobHealth - this.attackResult!.damage;
     if (this.mobHealth <= 0) {
-      alert('win');
-      this.$router.push({ name: 'Home' });
+      this.$router.push({ name: 'Victory' })
     }
   }
 

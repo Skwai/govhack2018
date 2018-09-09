@@ -6,6 +6,7 @@ import Spawn from './views/Spawn.vue';
 import SpawnConfirm from './views/SpawnConfirm.vue';
 import Stable from './views/Stable.vue';
 import Fight from './views/Fight.vue';
+import Victory from './views/Victory.vue';
 
 Vue.use(Router);
 
@@ -35,7 +36,14 @@ export default new Router({
         {
           path: 'fight',
           name: 'Fight',
-          component: Fight
+          component: Fight,
+          children: [
+            {
+              path: 'victory',
+              name: 'Victory',
+              component: Victory
+            }
+          ]
         }
       ]
     },
