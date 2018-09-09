@@ -77,6 +77,7 @@ export default class StableView extends Vue {
     text-align: left;
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     &:focus {
       outline: 0;

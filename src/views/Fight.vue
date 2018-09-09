@@ -17,6 +17,12 @@
     <div class="FightView__EnemyAvatar">
       <img src="/avatar.png">
     </div>
+
+    <AttackResult v-if="attackResult" :attackResult=attackResult />
+
+    <div class="FightView__AttackResult">Enemy bin
+      <output>Misses!</output>      
+    </div>
     
     <div class="FightView__Attacks">
       <AppBtnGroup>
@@ -40,30 +46,23 @@ import Mob from '@/models/Mob';
 import { IMobAttackType } from '@/data/mobs';
 
 import AppBtn from '@/components/AppBtn.vue';
+import AttackResult from '@/components/AttackResult.vue';
 import AppBtnGroup from '@/components/AppBtnGroup.vue';
 import MobHealthBar from '@/components/MobHealthBar.vue';
 
 @Component({
   components: {
     MobHealthBar,
+    AttackResult,
     AppBtn,
     AppBtnGroup
   }
 })
 export default class FightView extends Vue {
+  attackResult: any = null;
+  
   fight(attack: IMobAttackType) {
-    const res: battle.IFightResult = battle.fight(this.trashemon, this.mob, attack);
-    switch (res.outcome) {
-      case battle.OutcomeType.MISS:
-        alert('You missed!');
-        break;
-      case battle.OutcomeType.HIT:
-        alert('You hit for ' + res.damage + '!');
-        break;
-      case battle.OutcomeType.CRITICAL:
-        alert('CRITICAL HIT!! You did ' + res.damage + ' damage!');
-        break;
-    }
+    this.attackResult = battle.fight(this.trashemon, this.mob, attack);
   }
 
   get mob(): Mob {
