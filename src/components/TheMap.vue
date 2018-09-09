@@ -64,7 +64,7 @@ export default class TheMap extends Vue {
 
   async mounted() {
     const { lat, lng } = this.coords;
-    const zoom = 15;
+    const zoom = 18;
     this.map = new google.maps.Map(this.$refs.map as Element, {
       center: { lat, lng },
       zoom,

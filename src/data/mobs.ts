@@ -1,4 +1,5 @@
 export interface IMobType {
+  type: string;
   name: string;
   spawnLevelRange: [number, number];
   baseHealth: number;
@@ -13,8 +14,19 @@ export interface IMobAttackType {
   missChance: number;
 }
 
+export enum MobTypes {
+  TRASHOSAUR = '25lt Drop Plastic',
+  SCUMOSAUR = '120lt Doggie Bins',
+  FILTHOSAUR = '120lt Cage General Waste',
+  DANKOSAUR = '240lt Cage General Waste',
+  SEEDOSAUR = 'Stainless Steel Box',
+  DOGOSAUR = 'Dog Refuse Bag Dispenser',
+  STANKOSAUR = 'Stainless Steel/Mod Wood'
+}
+
 export const trashosaur: IMobType = {
   name: 'Trashosaur',
+  type: MobTypes.TRASHOSAUR,
   spawnLevelRange: [1, 4],
   baseHealth: 10,
   healthMultiplier: 2,
@@ -26,22 +38,17 @@ export const trashosaur: IMobType = {
       missChance: 0.25
     },
     {
+      name: 'Overflow',
+      damageRange: [2, 5],
+      missChance: 0.50
+    },
+    {
       name: 'Combust',
       damageRange: [2, 4],
       missChance: 0.75
     }
   ]
 };
-
-export enum MobTypes {
-  TRASHOSAUR = '25lt Drop Plastic',
-  SCUMOSAUR = '120lt Doggie Bins',
-  FILTHOSAUR = '120lt Cage General Waste',
-  DANKOSAUR = '240lt Cage General Waste',
-  SEEDOSAUR = 'Stainless Steel Box',
-  DOGOSAUR = 'Dog Refuse Bag Dispenser',
-  STANKOSAUR = 'Stainless Steel/Mod Wood'
-}
 
 const mobs: Map<string, IMobType> = new Map();
 mobs.set(MobTypes.TRASHOSAUR, trashosaur);

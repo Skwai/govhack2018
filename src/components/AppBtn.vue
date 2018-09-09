@@ -54,7 +54,7 @@ export default class AppBtn extends Vue {
 
 .AppBtn {
   flex: 1;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   display: inline-flex;
   align-items: center;
   transition: transitionBase;
@@ -65,7 +65,7 @@ export default class AppBtn extends Vue {
   white-space: nowrap;
   cursor: pointer;
   position: relative;
-  font-size: 0.875rem;
+  font-size: 13px;
   font-weight: 700;
   text-align: center;
   transition: 0.15s background;

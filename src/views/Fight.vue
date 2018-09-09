@@ -27,7 +27,7 @@
     <div class="FightView__Attacks">
       <AppBtnGroup>
         <AppBtn
-          v-for="attack in trashemon.attacks"
+          v-for="attack in trashemonAttacks"
           :key="attack.name"
           @click.prevent="fight(attack)"
           >
@@ -43,7 +43,7 @@ import * as battle from '@/services/battle';
 
 import { Component, Vue } from 'vue-property-decorator';
 import Mob from '@/models/Mob';
-import { IMobAttackType } from '@/data/mobs';
+import mobs,{ IMobAttackType } from '@/data/mobs';
 
 import AppBtn from '@/components/AppBtn.vue';
 import AttackResult from '@/components/AttackResult.vue';
@@ -75,6 +75,11 @@ export default class FightView extends Vue {
 
   get trashemon(): Mob {
     return this.$store.getters['game/currentTrashemon'];
+  }
+
+  get trashemonAttacks(): IMobAttackType[] {
+    const mobType = mobs.get(this.trashemon.type)
+    return mobType!.attacks
   }
 
   get trashemonLevel(): number {

@@ -6,6 +6,7 @@ const XP_PER_LEVEL = 10;
 export default class Mob {
   xp: number = 0;
   name: string = '';
+  type: string = '';
   health: number = 0;
   attacks: IMobAttackType[] = [];
 
@@ -20,10 +21,14 @@ export default class Mob {
     const level = minLevel + Math.floor(Math.random() * (maxLevel - minLevel));
 
     mob.name = mobType.name;
+    mob.type = mobType.type;
     mob.xp = Mob.levelToXp(level);
-    mob.name = mobType.name;
     mob.attacks = mobType.attacks;
     return mob;
+  }
+
+  static getNameFromType(type: string) {
+    return mobs;
   }
 
   static xpToLevel(xp: number) {
