@@ -17,7 +17,7 @@ export default class AttackResult extends Vue {
     const { attackResult } = this
 
     if (!attackResult) {
-      return ""
+      return '';
     }
 
     switch (attackResult.outcome) {
@@ -41,7 +41,7 @@ export default class AttackResult extends Vue {
   transform: translate(-50%, -50%);
   font-size: 1.5rem;
   text-align: center;
-  text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, #000 3px 3px 10px, #000 -3px -3px 10px;
 
   output {
     font-size: 2rem;
