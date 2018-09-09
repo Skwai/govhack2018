@@ -21,7 +21,8 @@ export enum MobTypes {
   DANKOSAUR = '240lt Cage General Waste',
   SEEDOSAUR = 'Stainless Steel Box',
   DOGOSAUR = 'Dog Refuse Bag Dispenser',
-  STANKOSAUR = 'Stainless Steel/Mod Wood'
+  STANKOSAUR = 'Stainless Steel/Mod Wood',
+  WINDOSAUR = 'Escaped Trashemon'
 }
 
 export const trashosaur: IMobType = {
@@ -58,4 +59,5 @@ mobs.set(MobTypes.DANKOSAUR, trashosaur);
 mobs.set(MobTypes.SEEDOSAUR, trashosaur);
 mobs.set(MobTypes.DOGOSAUR, trashosaur);
 mobs.set(MobTypes.STANKOSAUR, trashosaur);
+mobs.set(MobTypes.WINDOSAUR, trashosaur);
 export default mobs;

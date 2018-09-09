@@ -33,24 +33,47 @@ const module: Module<GameState, RootState> = {
   state: new GameState(),
 
   actions: {
-    getSpawns: async ({ commit }, coords: ILatLng) => {
+    getSpawns: async ({ commit, state }, coords: ILatLng) => {
       const { lat, lng } = coords;
       const loc1 = { lat: lat - AREA_LAT, lng: lng - AREA_LONG };
       const loc2 = { lat: lat + AREA_LAT, lng: lng + AREA_LONG };
 
-      const docs = await db.collection('spawns').get();
+      const collection = db.collection('spawns');
+      const docs = await collection.get();
 
-      const spawns: Spawn[] = [];
+      const spawns: Spawn[] = state.spawns;
 
       docs.forEach((doc) => {
         const { id } = doc;
         const data = doc.data() as SpawnProperties;
-        if (inBetween(data, loc1, loc2)) {
+        if (!spawns.find((s) => s.id === id) && inBetween(data, loc1, loc2)) {
           const mob = new Spawn({ id, ...data });
           spawns.push(mob);
         }
       });
-      commit(Mutations.INSERT_SPAWNS, spawns);
+
+      const nearSpawns = spawns.filter((spawn) => inBetween(spawn, loc1, loc2));
+      if (nearSpawns.length === 0) {
+        const count = Math.floor(1 + Math.random() * 4);
+        for (let i = 0; i < count; i++) {
+          const newLat = lat + (Math.random() * 0.002 * 2 - 0.002);
+          const newLng = lng + (Math.random() * 0.002 * 2 - 0.002);
+          const ref = await collection.add({
+            coordinates: new firestore.GeoPoint(newLat, newLng),
+            lat: newLat,
+            lng: newLng,
+            type: MobTypes.WINDOSAUR,
+            cooldown: firestore.Timestamp.now()
+          });
+          const doc = await ref.get();
+          const { id } = doc;
+          const data = doc.data() as SpawnProperties;
+          const mob = new Spawn({ id, ...data });
+          nearSpawns.push(mob);
+        }
+      }
+
+      commit(Mutations.INSERT_SPAWNS, nearSpawns);
     },
 
     getUsers: async ({ commit, state }) => {
